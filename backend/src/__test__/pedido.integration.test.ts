@@ -4,7 +4,7 @@ import request from 'supertest';
 import type { Sequelize } from 'sequelize';
 import { PedidoItemModel, PedidoModel } from '../model/pedido.model.js';
 import { PedidoService } from '../service/pedido.service.js';
-import { createPedidoRouter } from '../routes/pedido.routes.js';
+import { createPedidoRouter } from '../routes/pedido.route.js';
 import type { IProducto, IProductoRepository } from '../interfaces/producto.interface.js';
 
 // Stub de productos
@@ -22,7 +22,7 @@ const catalogo = new Map<number, IProducto>([
 ]);
 
 const productos: IProductoRepository = {
-  findById: async (id) => catalogo.get(id) ?? null,
+  findById: async (id: number) => catalogo.get(id) ?? null,
   findAll: async () => [...catalogo.values()],
 };
 
@@ -35,7 +35,7 @@ const mockSequelize = {
 };
 
 // Mock de los métodos estáticos de los modelos
-vi.mock('../model/Pedido.model.js', async (importOriginal) => {
+vi.mock('../model/pedido.model.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../model/pedido.model.js')>();
   return {...actual,
     PedidoModel: {
