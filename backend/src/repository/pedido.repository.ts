@@ -1,6 +1,6 @@
 import type { OrderItem, Sequelize } from 'sequelize';
 import type { IPedido, IPedidoRepository } from '../interfaces/pedido.interface.js';
-import { PedidoItemModel, PedidoModel } from '../model/Pedido.model.js';
+import { PedidoItemModel, PedidoModel } from '../model/pedido.model.js';
 import { Pedido } from '../model/pedido.js';
 
 
