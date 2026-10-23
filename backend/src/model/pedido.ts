@@ -1,3 +1,5 @@
+import type { EstadoPedido, IItemPedido, IPedido } from '../interfaces/pedido.interface.js';
+
 export class Pedido implements IPedido {
     readonly id?: number;
     readonly total: number;

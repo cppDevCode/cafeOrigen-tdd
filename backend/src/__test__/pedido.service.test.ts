@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, type Mocked } from 'vitest';
 import type { Sequelize } from 'sequelize';
-import { PedidoService, ProductoNoEncontradoError } from '../service/Pedido.service.js';
+import { PedidoService, ProductoNoEncontradoError } from '../service/pedido.service.js';
 import type { IProducto, IProductoRepository } from '../interfaces/producto.interface.js';
  
 //Producto de prueba
