@@ -5,15 +5,15 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@12.3.4 --activate
 
 # Copiar archivos de dependencias
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY ./backend/package.json ./backend/pnpm-lock.yaml ./backend/pnpm-workspace.yaml ./
 # COPY ./package.json ./
 
 # Instalar dependencias
 RUN pnpm install --frozen-lockfile
 
 # Copiar código fuente y configuración de TypeScript
-COPY ./tsconfig.json ./
-COPY ./src ./src
+COPY ./backend/tsconfig.json ./
+COPY ./backend/src ./src
 
 # Compilar indicando el filtro del workspace
 RUN pnpm build
@@ -28,7 +28,7 @@ ENV NODE_ENV=production
 RUN corepack enable && corepack prepare pnpm@12.3.4 --activate
 
 # Copiar archivos de dependencias
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY ./backend/package.json ./backend/pnpm-lock.yaml ./backend/pnpm-workspace.yaml ./
 # COPY ./package.json ./
 
 # Instalar únicamente dependencias de producción
