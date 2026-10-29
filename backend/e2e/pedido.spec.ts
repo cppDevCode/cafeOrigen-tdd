@@ -37,10 +37,10 @@ test.describe('Módulo de Pedidos E2E', () => {
 
   test.describe('POST /api/pedidos', () => {
     test('debe crear un pedido con un único ítem y retornar estado 201 con total calculado', async ({ request }) => {
-      // Producto 6: Medialuna de manteca (precio = 1200)
+      // Producto 20: Medialuna de manteca (PASTELERIA, precio = 1200)
       const payload = {
         items: [
-          { productoId: 6, cantidad: 2 },
+          { productoId: 20, cantidad: 2 },
         ],
       };
 
@@ -54,20 +54,20 @@ test.describe('Módulo de Pedidos E2E', () => {
       expect(pedidoCreado.total).toBe(2400); // 2 * 1200
       expect(pedidoCreado.items).toHaveLength(1);
       expect(pedidoCreado.items[0]).toMatchObject({
-        productoId: 6,
+        productoId: 20,
         cantidad: 2,
         precioUnitario: 1200,
       });
     });
 
     test('debe crear un pedido con múltiples ítems (café + pastelería) calculando el total correctamente', async ({ request }) => {
-      // Producto 1: Café Expreso Pocillo (Colombia) -> precio = 4300
-      // Producto 6: Medialuna de manteca -> precio = 1200
-      // Total esperado: (1 * 4300) + (3 * 1200) = 4300 + 3600 = 7900
+      // Producto 2: Expreso Pocillo Colombia -> precio = 2500 + 18×180 = 5740
+      // Producto 20: Medialuna de manteca   -> precio = 1200
+      // Total esperado: (1 * 5740) + (3 * 1200) = 5740 + 3600 = 9340
       const payload = {
         items: [
-          { productoId: 1, cantidad: 1 },
-          { productoId: 6, cantidad: 3 },
+          { productoId: 2, cantidad: 1 },
+          { productoId: 20, cantidad: 3 },
         ],
       };
 
@@ -77,19 +77,19 @@ test.describe('Módulo de Pedidos E2E', () => {
       const pedidoCreado: PedidoResponseDTO = await response.json();
 
       expect(pedidoCreado.estado).toBe('PENDIENTE');
-      expect(pedidoCreado.total).toBe(7900);
+      expect(pedidoCreado.total).toBe(9340);
       expect(pedidoCreado.items).toHaveLength(2);
 
-      const itemCafe = pedidoCreado.items.find((i) => i.productoId === 1);
-      const itemPasteleria = pedidoCreado.items.find((i) => i.productoId === 6);
+      const itemCafe = pedidoCreado.items.find((i) => i.productoId === 2);
+      const itemPasteleria = pedidoCreado.items.find((i) => i.productoId === 20);
 
       expect(itemCafe).toMatchObject({
-        productoId: 1,
+        productoId: 2,
         cantidad: 1,
-        precioUnitario: 4300,
+        precioUnitario: 5740,
       });
       expect(itemPasteleria).toMatchObject({
-        productoId: 6,
+        productoId: 20,
         cantidad: 3,
         precioUnitario: 1200,
       });
@@ -115,7 +115,7 @@ test.describe('Módulo de Pedidos E2E', () => {
       // 1. Crear un pedido primero para asegurar su existencia
       const nuevo = await request.post('/api/pedidos', {
         data: {
-          items: [{ productoId: 6, cantidad: 1 }],
+          items: [{ productoId: 20, cantidad: 1 }],
         },
       });
       const creado: PedidoResponseDTO = await nuevo.json();
@@ -130,7 +130,7 @@ test.describe('Módulo de Pedidos E2E', () => {
       expect(pedido.total).toBe(1200);
       expect(pedido.estado).toBe('PENDIENTE');
       expect(pedido.items).toHaveLength(1);
-      expect(pedido.items[0]?.productoId).toBe(6);
+      expect(pedido.items[0]?.productoId).toBe(20);
     });
 
     test('debe responder 404 si el id de pedido no existe', async ({ request }) => {
