@@ -71,4 +71,27 @@ describe('carritoReducer', () => {
     expect(nuevoEstado.items[0].cantidad).toBe(2);
     });
 
+    
+    it('elimina el producto cuando se disminuye su última unidad', () => {
+    const muffin: Producto = {
+        id: 19,
+        nombre: 'Muffin de chocolate',
+        tipo: 'PASTELERIA',
+        precioBase: 2500,
+        precio: 2500
+    };
+
+    const estadoInicial = {
+        items: [{ producto: muffin, cantidad: 1 }]
+    };
+
+    const nuevoEstado = carritoReducer(estadoInicial, {
+        type: 'DISMINUIR_CANTIDAD',
+        productoId: 19
+    });
+
+    expect(nuevoEstado.items).toHaveLength(0);
+    });
+
+
     });
