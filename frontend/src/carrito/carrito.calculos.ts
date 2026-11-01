@@ -1,9 +1,4 @@
-import type { Producto } from '../schemas/producto.schema';
-
-type ItemCarrito = {
-    producto: Producto;
-    cantidad: number;
-};
+import type { ItemCarrito } from './carrito.types';
 
 export function calcularTotalCarrito(items: ItemCarrito[]): number {
     return items.reduce(

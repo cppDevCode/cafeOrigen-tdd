@@ -1,14 +1,6 @@
 
 import type { Producto } from '../schemas/producto.schema';
-
-type ItemCarrito = {
-  producto: Producto;
-  cantidad: number;
-};
-
-type EstadoCarrito = {
-  items: ItemCarrito[];
-};
+import type { EstadoCarrito } from './carrito.types';
 
 
 type AccionCarrito =
