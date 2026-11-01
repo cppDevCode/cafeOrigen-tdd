@@ -53,15 +53,19 @@ export function carritoReducer(
       };
     }
 
+    
     case 'DISMINUIR_CANTIDAD': {
-      return {
+    return {
         ...estado,
-        items: estado.items.map(item =>
-          item.producto.id === accion.productoId
+        items: estado.items
+        .map(item =>
+            item.producto.id === accion.productoId
             ? { ...item, cantidad: item.cantidad - 1 }
             : item
         )
-      };
+        .filter(item => item.cantidad > 0)
+    };
     }
+
   }
 }
