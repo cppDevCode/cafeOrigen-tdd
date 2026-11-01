@@ -2,7 +2,7 @@ import type { ItemCarrito } from './carrito.types';
 
 export function calcularTotalCarrito(items: ItemCarrito[]): number {
     return items.reduce(
-        (total, item) => total + item.producto.precio * item.cantidad,
+        (total, item) => total + calcularSubtotalItem(item),
         0
     );
 }
