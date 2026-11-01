@@ -62,4 +62,12 @@ describe('Cálculos del carrito', () => {
 
     expect(calcularCantidadTotal(items)).toBe(5);
     });
+
+    it('debe devolver 0 como total cuando el carrito está vacío', () => {
+    expect(calcularTotalCarrito([])).toBe(0);
+    });
+
+    it('debe devolver 0 unidades cuando el carrito está vacío', () => {
+    expect(calcularCantidadTotal([])).toBe(0);
+    });
 });
