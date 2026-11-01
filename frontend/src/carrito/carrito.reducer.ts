@@ -18,18 +18,35 @@ type AccionCarrito = {
 export function carritoReducer(
   estado: EstadoCarrito,
   accion: AccionCarrito
-): EstadoCarrito {
-  switch (accion.type) {
-    case 'AGREGAR_PRODUCTO':
-      return {
-        ...estado,
-        items: [
-          ...estado.items,
-          {
-            producto: accion.producto,
-            cantidad: 1
-          }
-        ]
-      };
-  }
+    ): EstadoCarrito {
+    switch (accion.type) {
+        case 'AGREGAR_PRODUCTO': {
+        const productoExistente = estado.items.some(
+            item => item.producto.id === accion.producto.id
+        );
+
+        if (productoExistente) {
+            return {
+            ...estado,
+            items: estado.items.map(item =>
+                item.producto.id === accion.producto.id
+                ? { ...item, cantidad: item.cantidad + 1 }
+                : item
+            )
+            };
+        }
+
+        return {
+            ...estado,
+            items: [
+            ...estado.items,
+            {
+                producto: accion.producto,
+                cantidad: 1
+            }
+            ]
+        };
+        }
+    }
 }
+
