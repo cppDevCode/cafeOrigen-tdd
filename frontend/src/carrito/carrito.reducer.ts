@@ -23,7 +23,11 @@ type AccionCarrito =
     | {
         type: 'ELIMINAR_PRODUCTO';
         productoId: number;
-        };
+        }
+        
+    | {
+        type: 'VACIAR_CARRITO';
+    };;
 
 
 export function carritoReducer(
@@ -83,6 +87,13 @@ export function carritoReducer(
     };
     }
 
+    
+    case 'VACIAR_CARRITO': {
+    return {
+        ...estado,
+        items: []
+    };
+}
 
   }
 }
