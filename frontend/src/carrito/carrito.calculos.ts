@@ -11,3 +11,10 @@ export function calcularTotalCarrito(items: ItemCarrito[]): number {
         0
     );
 }
+
+export function calcularCantidadTotal(items: ItemCarrito[]): number {
+    return items.reduce(
+        (total, item) => total + item.cantidad,
+        0
+    );
+}
