@@ -10,15 +10,21 @@ type EstadoCarrito = {
   items: ItemCarrito[];
 };
 
+
 type AccionCarrito =
-  | {
-      type: 'AGREGAR_PRODUCTO';
-      producto: Producto;
-    }
-  | {
-      type: 'DISMINUIR_CANTIDAD';
-      productoId: number;
-    };
+    | {
+        type: 'AGREGAR_PRODUCTO';
+        producto: Producto;
+        }
+    | {
+        type: 'DISMINUIR_CANTIDAD';
+        productoId: number;
+        }
+    | {
+        type: 'ELIMINAR_PRODUCTO';
+        productoId: number;
+        };
+
 
 export function carritoReducer(
   estado: EstadoCarrito,
@@ -66,6 +72,17 @@ export function carritoReducer(
         .filter(item => item.cantidad > 0)
     };
     }
+
+    
+    case 'ELIMINAR_PRODUCTO': {
+    return {
+        ...estado,
+        items: estado.items.filter(
+        item => item.producto.id !== accion.productoId
+        )
+    };
+    }
+
 
   }
 }
