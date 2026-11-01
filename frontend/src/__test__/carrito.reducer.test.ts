@@ -115,5 +115,28 @@ describe('carritoReducer', () => {
     expect(nuevoEstado.items).toHaveLength(0);
     });
 
+    
+    it('vacía todos los productos del carrito', () => {
+    const muffin: Producto = {
+        id: 19,
+        nombre: 'Muffin de chocolate',
+        tipo: 'PASTELERIA',
+        precioBase: 2500,
+        precio: 2500
+    };
+
+    const estadoInicial = {
+        items: [
+        { producto: muffin, cantidad: 3 }
+        ]
+    };
+
+    const nuevoEstado = carritoReducer(estadoInicial, {
+        type: 'VACIAR_CARRITO'
+    });
+
+    expect(nuevoEstado.items).toHaveLength(0);
+    });
+
 
     });
