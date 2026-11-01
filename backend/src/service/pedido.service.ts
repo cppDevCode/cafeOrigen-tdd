@@ -32,7 +32,7 @@ export class PedidoService {
             if (!producto) throw new ProductoNoEncontradoError(productoId);
             items.push({ productoId, cantidad, precioUnitario: producto.calcularPrecio() });
         }
-        return new Pedido(items);
+        return new Pedido(items, 'PENDIENTE', undefined, dto.mesaId);
     }
 
     async crear(dto: CrearPedidoDTO): Promise<IPedido> {

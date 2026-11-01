@@ -11,6 +11,7 @@ export class PedidoItemModel extends Model {
 
 export class PedidoModel extends Model {
     declare id: number;
+    declare mesaId: number | null;
     declare estado: EstadoPedido;
     declare total: string; // pg devuelve decimal como string
     declare items?: PedidoItemModel[];
@@ -20,6 +21,7 @@ export class PedidoModel extends Model {
 export function initPedidoModels(sequelize: Sequelize): void {
     PedidoModel.init({
         id:{ type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        mesaId: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
         estado: { type: DataTypes.STRING(20), allowNull: false, defaultValue: 'PENDIENTE' },
         total: {type: DataTypes.DECIMAL(10, 2), allowNull: false },
     },

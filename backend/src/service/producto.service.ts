@@ -1,10 +1,17 @@
-    import type {
+import type {
     IProducto,
     IProductoRepository,
     ProductoResponseDTO,
-    } from '../interfaces/producto.interface.js';
+    VariedadCafe,
+} from '../interfaces/producto.interface.js';
 
-    function aDTO(p: IProducto): ProductoResponseDTO {
+const descripcionesVariedad: Record<VariedadCafe, string> = {
+    COLOMBIA: 'Acidez media, cuerpo equilibrado y notas cítricas y florales',
+    ETIOPIA: 'Acidez muy viva, cuerpo ligero y notas frutales',
+    BRASIL: 'Acidez baja, cuerpo denso y notas de avellana',
+};
+
+function aDTO(p: IProducto): ProductoResponseDTO {
     return {
         id: p.id,
         nombre: p.nombre,
@@ -12,12 +19,15 @@
         precioBase: p.precioBase,
         ...(p.tamano !== undefined && { tamano: p.tamano }),
         ...(p.gramos !== undefined && { gramos: p.gramos }),
-        ...(p.variedad !== undefined && { variedad: p.variedad }),
+        ...(p.variedad !== undefined && {
+            variedad: p.variedad,
+            descripcionVariedad: descripcionesVariedad[p.variedad],
+        }),
         precio: p.calcularPrecio(),
     };
-    }
+}
 
-    export class ProductoService {
+export class ProductoService {
     constructor(private readonly repo: IProductoRepository) {}
 
     async listar(): Promise<ProductoResponseDTO[]> {
@@ -29,4 +39,4 @@
         const producto = await this.repo.findById(id);
         return producto ? aDTO(producto) : null;
     }
-    }
+}

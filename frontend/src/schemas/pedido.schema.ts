@@ -31,7 +31,8 @@ export const PedidoSchema = z.object({
   id: z.number().int().positive(),
   estado: EstadoPedidoSchema,
   total: z.number().nonnegative(),
-  items: z.array(ItemPedidoSchema).min(1)
+  items: z.array(ItemPedidoSchema).min(1),
+  mesaId: z.number().int().positive().nullable().optional(),
 });
 
 export type Pedido = z.infer<typeof PedidoSchema>;
