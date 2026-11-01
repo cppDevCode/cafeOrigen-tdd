@@ -13,3 +13,7 @@ export function calcularCantidadTotal(items: ItemCarrito[]): number {
         0
     );
 }
+
+export function calcularSubtotalItem(item: ItemCarrito): number {
+  return item.producto.precio * item.cantidad;
+}
