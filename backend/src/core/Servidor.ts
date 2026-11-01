@@ -31,11 +31,20 @@ export class Servidor {
     this.saludo();
   }
 
+  public getApp(): Application {
+    return this.app;
+  }
+
+  private obtenerOrigenesCors(): string[] {
+    const raw = process.env.CORS_ORIGIN || "http://localhost:3000,http://localhost:5173";
+    return raw.split(",").map((origen) => origen.trim());
+  }
+
   private middleware() {
     this.app.use(helmet());
     this.app.use(
       cors({
-        origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+        origin: this.obtenerOrigenesCors(),
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
         credentials: true,
       }),

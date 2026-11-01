@@ -24,7 +24,7 @@ export class ErrorContratoZod extends Error {
 
 export class ClienteApi implements ICatalogoCliente {
   constructor(
-    private readonly baseUrl: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api'
+    private readonly baseUrl: string = import.meta.env.VITE_API_URL || 'http://localhost:3002/api'
   ) {}
 
   public async obtenerProductos(): Promise<Producto[]> {
