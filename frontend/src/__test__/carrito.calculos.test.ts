@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calcularTotalCarrito, calcularCantidadTotal } from '../carrito/carrito.calculos';
+import { calcularTotalCarrito, calcularCantidadTotal, calcularSubtotalItem } from '../carrito/carrito.calculos';
 import type { Producto } from '../schemas/producto.schema';
 
 describe('Cálculos del carrito', () => {
@@ -70,4 +70,22 @@ describe('Cálculos del carrito', () => {
     it('debe devolver 0 unidades cuando el carrito está vacío', () => {
     expect(calcularCantidadTotal([])).toBe(0);
     });
+
+    it('debe calcular el subtotal de un producto según su precio y cantidad', () => {
+    const item = {
+        producto: {
+        id: 1,
+        nombre: 'Café expreso',
+        precioBase: 2000,
+        precio: 2500,
+        tipo: 'CAFE_EXPRESO' as const,
+        tamano: 'POCILLO' as const,
+        gramos: 18,
+        variedad: 'BRASIL' as const
+        },
+        cantidad: 3
+    };
+
+    expect(calcularSubtotalItem(item)).toBe(7500);
+});
 });
