@@ -1,6 +1,6 @@
 
 import { useCarrito } from '../carrito/carrito.context';
-import { calcularSubtotalItem } from '../carrito/carrito.calculos';
+import { calcularSubtotalItem, calcularTotalCarrito } from '../carrito/carrito.calculos';
 
 export function Carrito() {
     const { estado, dispatch } = useCarrito();
@@ -57,6 +57,7 @@ export function Carrito() {
             </button>
             </div>
         ))}
+        <p>Total: ${calcularTotalCarrito(estado.items)}</p>
         </section>
     );
 }
