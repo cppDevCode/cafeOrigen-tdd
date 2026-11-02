@@ -296,4 +296,19 @@ it('muestra el total general de los productos del carrito', () => {
 });
 
 
+it('deshabilita la confirmación cuando el carrito está vacío', () => {
+    render(
+        <CarritoProvider>
+        <Carrito />
+        </CarritoProvider>
+    );
+
+    const botonConfirmar = screen.getByRole('button', {
+        name: 'Confirmar pedido'
+    });
+
+    expect(botonConfirmar).toBeDisabled();
+});
+
+
 });
