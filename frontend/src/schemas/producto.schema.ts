@@ -12,7 +12,8 @@ const CafeSchema = ProductoBaseSchema.extend({
   tipo: z.enum(['CAFE_EXPRESO', 'CAFE_FILTRADO']),
   tamano: z.enum(['POCILLO', 'MEDIANO', 'TAZA_GRANDE']),
   gramos: z.number().positive(),
-  variedad: z.enum(['BRASIL', 'COLOMBIA', 'ETIOPIA'])
+  variedad: z.enum(['BRASIL', 'COLOMBIA', 'ETIOPIA']),
+  descripcionVariedad: z.string().min(1),
 });
 
 const PasteleriaSchema = ProductoBaseSchema.extend({

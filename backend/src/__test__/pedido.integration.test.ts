@@ -87,7 +87,7 @@ describe('Pedidos (integración con mocks)', () => {
  
       const res = await request(app)
         .post('/pedidos')
-        .send({ items: [{ productoId: 1, cantidad: 2 }, { productoId: 2, cantidad: 1 }] });
+        .send({ mesaId: 4, items: [{ productoId: 1, cantidad: 2 }, { productoId: 2, cantidad: 1 }] });
  
       expect(res.status).toBe(201);
       expect(res.body.total).toBe(12540); 
@@ -95,8 +95,12 @@ describe('Pedidos (integración con mocks)', () => {
  
       
       expect(PedidoModel.create).toHaveBeenCalledWith(
-        { estado: 'PENDIENTE', total: 12540 },
-        { transaction: transaccionFalsa },
+          {
+              estado: 'PENDIENTE',
+              mesaId: 4,
+              total: 12540,
+          },
+          { transaction: transaccionFalsa },
       );
       expect(PedidoItemModel.bulkCreate).toHaveBeenCalledWith(
         [

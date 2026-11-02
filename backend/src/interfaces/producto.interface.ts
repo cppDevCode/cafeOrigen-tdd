@@ -27,5 +27,6 @@ export interface ProductoResponseDTO {
     tamano?: TamanoCafe;
     gramos?: number;
     variedad?: VariedadCafe;
+    descripcionVariedad?: string;
     precio: number; //Resultado de calcularPrecio()
 }
