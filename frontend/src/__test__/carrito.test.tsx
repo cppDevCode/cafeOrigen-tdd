@@ -4,6 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { CarritoProvider } from '../carrito/carrito.context';
 import { Carrito } from '../components/Carrito';
 import { useCarrito } from '../carrito/carrito.context'; 
+import '@testing-library/jest-dom/vitest';
 
 describe('Carrito', () => {
     it('muestra un mensaje cuando el carrito está vacío', () => {
@@ -312,45 +313,45 @@ it('deshabilita la confirmación cuando el carrito está vacío', () => {
 
 
 it('habilita la confirmación cuando el carrito tiene productos', () => {
-    function AgregarProducto() {
-        const { dispatch } = useCarrito();
+  function AgregarProducto() {
+    const { dispatch } = useCarrito();
 
-        return (
-        <button
-            onClick={() =>
-            dispatch({
-                type: 'AGREGAR_PRODUCTO',
-                producto: {
-                id: 19,
-                nombre: 'Muffin de chocolate',
-                tipo: 'PASTELERIA',
-                precioBase: 2500,
-                precio: 2500
-                }
-            })
+    return (
+      <button
+        onClick={() =>
+          dispatch({
+            type: 'AGREGAR_PRODUCTO',
+            producto: {
+              id: 19,
+              nombre: 'Muffin de chocolate',
+              tipo: 'PASTELERIA',
+              precioBase: 2500,
+              precio: 2500
             }
-        >
-            Agregar producto
-        </button>
-        );
-    }
-
-    render(
-        <CarritoProvider>
-        <AgregarProducto />
-        <Carrito />
-        </CarritoProvider>
+          })
+        }
+      >
+        Agregar producto
+      </button>
     );
+  }
 
-    fireEvent.click(
-        screen.getByRole('button', { name: 'Agregar producto' })
-    );
+  render(
+    <CarritoProvider>
+      <AgregarProducto />
+      <Carrito />
+    </CarritoProvider>
+  );
 
-    const botonConfirmar = screen.getByRole('button', {
-        name: 'Confirmar pedido'
-    });
+  fireEvent.click(
+    screen.getByRole('button', { name: 'Agregar producto' })
+  );
 
-    expect(botonConfirmar).toBeEnabled();
+  const botonConfirmar = screen.getByRole('button', {
+    name: 'Confirmar pedido'
+  });
+
+  expect(botonConfirmar).toBeEnabled();
 });
 
 });
