@@ -1,3 +1,4 @@
+
 import type { Sequelize } from 'sequelize';
 import type { CrearPedidoDTO, IItemPedido, IPedido, IPedidoRepository } from '../interfaces/pedido.interface.js';
 import type { IProductoRepository } from '../interfaces/producto.interface.js';
@@ -34,31 +35,44 @@ export class PedidoService {
 
     async armarPedido(dto: CrearPedidoDTO): Promise<Pedido> {
         const items: IItemPedido[] = [];
+
         if (!Array.isArray(dto.items) || dto.items.length === 0) {
             throw new DatosPedidoInvalidosError(
                 'El pedido debe contener al menos un producto'
             );
         }
 
-        for (const { productoId, cantidad } of dto.items) {
-        if (!Number.isInteger(cantidad) || cantidad <= 0) {
+        // Validar mesaId cuando se proporciona
+        if (
+            dto.mesaId !== undefined &&
+            dto.mesaId !== null &&
+            (!Number.isInteger(dto.mesaId) || dto.mesaId <= 0)
+        ) {
             throw new DatosPedidoInvalidosError(
-                'La cantidad debe ser un número entero mayor a cero'
+                'El identificador de mesa debe ser un número entero positivo'
             );
         }
 
-        const producto = await this.productos.findById(productoId);
+        for (const { productoId, cantidad } of dto.items) {
+            if (!Number.isInteger(cantidad) || cantidad <= 0) {
+                throw new DatosPedidoInvalidosError(
+                    'La cantidad debe ser un número entero mayor a cero'
+                );
+            }
 
-        if (!producto) {
-            throw new ProductoNoEncontradoError(productoId);
+            const producto = await this.productos.findById(productoId);
+
+            if (!producto) {
+                throw new ProductoNoEncontradoError(productoId);
+            }
+
+            items.push({
+                productoId,
+                cantidad,
+                precioUnitario: producto.calcularPrecio()
+            });
         }
 
-        items.push({
-            productoId,
-            cantidad,
-            precioUnitario: producto.calcularPrecio()
-        });
-    }
         return new Pedido(items, 'PENDIENTE', undefined, dto.mesaId);
     }
 
