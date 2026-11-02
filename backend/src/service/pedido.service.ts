@@ -34,6 +34,12 @@ export class PedidoService {
 
     async armarPedido(dto: CrearPedidoDTO): Promise<Pedido> {
         const items: IItemPedido[] = [];
+        if (!Array.isArray(dto.items) || dto.items.length === 0) {
+            throw new DatosPedidoInvalidosError(
+                'El pedido debe contener al menos un producto'
+            );
+        }
+
         for (const { productoId, cantidad } of dto.items) {
         if (!Number.isInteger(cantidad) || cantidad <= 0) {
             throw new DatosPedidoInvalidosError(
