@@ -248,5 +248,52 @@ it('muestra el subtotal de un producto según su cantidad', () => {
 });
 
 
+it('muestra el total general de los productos del carrito', () => {
+    function AgregarProductos() {
+        const { dispatch } = useCarrito();
+
+        const muffin = {
+        id: 19,
+        nombre: 'Muffin de chocolate',
+        tipo: 'PASTELERIA' as const,
+        precioBase: 2500,
+        precio: 2500
+        };
+
+        const medialuna = {
+        id: 20,
+        nombre: 'Medialuna',
+        tipo: 'PASTELERIA' as const,
+        precioBase: 1500,
+        precio: 1500
+        };
+
+        return (
+        <button
+            onClick={() => {
+            dispatch({ type: 'AGREGAR_PRODUCTO', producto: muffin });
+            dispatch({ type: 'AGREGAR_PRODUCTO', producto: muffin });
+            dispatch({ type: 'AGREGAR_PRODUCTO', producto: medialuna });
+            }}
+        >
+            Agregar productos
+        </button>
+        );
+    }
+
+    render(
+        <CarritoProvider>
+        <AgregarProductos />
+        <Carrito />
+        </CarritoProvider>
+    );
+
+    fireEvent.click(
+        screen.getByRole('button', { name: 'Agregar productos' })
+    );
+
+    expect(screen.getByText('Total: $6500')).toBeInTheDocument();
+});
+
 
 });
