@@ -1,5 +1,5 @@
 import { type Request, type Response } from "express";
-import { PedidoService, ProductoNoEncontradoError } from "../service/pedido.service.js";
+import { PedidoService, ProductoNoEncontradoError, DatosPedidoInvalidosError } from "../service/pedido.service.js";
 import type { IPedido } from "../interfaces/pedido.interface.js";
 
 export class PedidoController {
@@ -13,6 +13,11 @@ export class PedidoController {
             if (error instanceof ProductoNoEncontradoError) {
                 return res.status(404).json({ error: error.message });
             }
+
+            if (error instanceof DatosPedidoInvalidosError) {
+                return res.status(400).json({ error: error.message });
+            }
+
             console.error('Error al crear pedido:', error);
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
