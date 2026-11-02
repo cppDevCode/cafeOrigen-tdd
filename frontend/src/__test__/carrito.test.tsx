@@ -56,4 +56,44 @@ describe('Carrito', () => {
     expect(screen.getByText('Cantidad: 1')).toBeInTheDocument();
     });
 
+    
+it('incrementa la cantidad al presionar el botón +', () => {
+    function AgregarProducto() {
+        const { dispatch } = useCarrito();
+
+        return (
+        <button
+            onClick={() =>
+            dispatch({
+                type: 'AGREGAR_PRODUCTO',
+                producto: {
+                id: 19,
+                nombre: 'Muffin de chocolate',
+                tipo: 'PASTELERIA',
+                precioBase: 2500,
+                precio: 2500
+                }
+            })
+            }
+        >
+            Agregar producto
+        </button>
+        );
+    }
+
+    render(
+        <CarritoProvider>
+        <AgregarProducto />
+        <Carrito />
+        </CarritoProvider>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar producto' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Incrementar cantidad' }));
+
+    expect(screen.getByText('Cantidad: 2')).toBeInTheDocument();
+});
+
+
 });
