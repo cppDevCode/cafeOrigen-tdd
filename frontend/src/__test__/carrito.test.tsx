@@ -311,4 +311,46 @@ it('deshabilita la confirmación cuando el carrito está vacío', () => {
 });
 
 
+it('habilita la confirmación cuando el carrito tiene productos', () => {
+    function AgregarProducto() {
+        const { dispatch } = useCarrito();
+
+        return (
+        <button
+            onClick={() =>
+            dispatch({
+                type: 'AGREGAR_PRODUCTO',
+                producto: {
+                id: 19,
+                nombre: 'Muffin de chocolate',
+                tipo: 'PASTELERIA',
+                precioBase: 2500,
+                precio: 2500
+                }
+            })
+            }
+        >
+            Agregar producto
+        </button>
+        );
+    }
+
+    render(
+        <CarritoProvider>
+        <AgregarProducto />
+        <Carrito />
+        </CarritoProvider>
+    );
+
+    fireEvent.click(
+        screen.getByRole('button', { name: 'Agregar producto' })
+    );
+
+    const botonConfirmar = screen.getByRole('button', {
+        name: 'Confirmar pedido'
+    });
+
+    expect(botonConfirmar).toBeEnabled();
+});
+
 });
