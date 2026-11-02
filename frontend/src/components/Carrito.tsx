@@ -64,6 +64,11 @@ export function Carrito() {
             </div>
         ))}
         <p>Total: ${calcularTotalCarrito(estado.items)}</p>
+
+        <button type="button">
+        Confirmar pedido
+        </button>
+
         </section>
     );
 }
