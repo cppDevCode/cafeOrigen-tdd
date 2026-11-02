@@ -131,6 +131,34 @@ describe('Pedidos (integración con mocks)', () => {
     expect(PedidoModel.create).not.toHaveBeenCalled();
 
   });
+  it('crea un pedido sin mesaId y devuelve null', async () => {
+    vi.mocked(PedidoModel.findByPk).mockResolvedValueOnce({
+        id: 1,
+        mesaId: null,
+        estado: 'PENDIENTE',
+        total: '5020.00',
+        items: [filaItem(1, 1, 1, 1, '5020.00')]
+    } as unknown as Fila);
+
+    const res = await request(app)
+        .post('/pedidos')
+        .send({
+            items: [{ productoId: 1, cantidad: 1 }]
+        });
+
+    expect(res.status).toBe(201);
+    expect(res.body.mesaId).toBeNull();
+
+    expect(PedidoModel.create).toHaveBeenCalledWith(
+        {
+            mesaId: null,
+            estado: 'PENDIENTE',
+            total: 5020
+        },
+        { transaction: transaccionFalsa }
+    );
+});
+
   });
  //GET /pedidos
   describe('GET /pedidos', () => {
