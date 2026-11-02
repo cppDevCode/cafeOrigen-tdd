@@ -28,20 +28,31 @@ export function Carrito() {
                 +
             </button>
 
-                        
             <button
-            type="button"
-            aria-label="Disminuir cantidad"
-            onClick={() =>
+                type="button"
+                aria-label="Disminuir cantidad"
+                onClick={() =>
                 dispatch({
-                type: 'DISMINUIR_CANTIDAD',
-                productoId: item.producto.id
+                    type: 'DISMINUIR_CANTIDAD',
+                    productoId: item.producto.id
                 })
-            }
+                }
             >
-            −
+                −
             </button>
 
+            <button
+                type="button"
+                aria-label="Eliminar producto"
+                onClick={() =>
+                dispatch({
+                    type: 'ELIMINAR_PRODUCTO',
+                    productoId: item.producto.id
+                })
+                }
+            >
+                Eliminar
+            </button>
             </div>
         ))}
         </section>
