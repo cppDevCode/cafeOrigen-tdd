@@ -144,6 +144,18 @@ describe('Pedidos (integración con mocks)', () => {
       expect(res.body[1].total).toBe(7500);
       expect(res.body[1].items[0]).toMatchObject({ productoId: 2, cantidad: 3, precioUnitario: 2500 });
     });
+
+    it('responde 400 si la cantidad de un producto es negativa', async () => {
+      const res = await request(app)
+        .post('/pedidos')
+        .send({
+          items: [{ productoId: 1, cantidad: -2 }]
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty('error');
+      expect(PedidoModel.create).not.toHaveBeenCalled();
+    });
   });
 
   // GET /pedidos/:id
