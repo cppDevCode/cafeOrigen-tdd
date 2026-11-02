@@ -235,5 +235,34 @@ describe('Pedidos (integración con mocks)', () => {
       expect(res.status).toBe(404);
       expect(res.body).toEqual({ error: 'Pedido no encontrado' });
     });
+
+    it('devuelve estado, mesaId, items y total del pedido', async () => {
+    vi.mocked(PedidoModel.findByPk).mockResolvedValueOnce({
+        id: 1,
+        mesaId: 4,
+        estado: 'EN_PREPARACION',
+        total: '10040.00',
+        items: [filaItem(1, 1, 1, 2, '5020.00')]
+    } as unknown as Fila);
+
+    const res = await request(app).get('/pedidos/1');
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+        id: 1,
+        mesaId: 4,
+        estado: 'EN_PREPARACION',
+        total: 10040,
+        items: [
+            {
+                id: 1,
+                productoId: 1,
+                cantidad: 2,
+                precioUnitario: 5020
+            }
+        ]
+    });
+});
   });
 });
