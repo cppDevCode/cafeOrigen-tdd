@@ -11,6 +11,13 @@ export class ProductoNoEncontradoError extends Error {
     }
 }
 
+export class DatosPedidoInvalidosError extends Error {
+    constructor(mensaje: string) {
+        super(mensaje);
+        this.name = 'DatosPedidoInvalidosError';
+    }
+}
+
 export class PedidoService {
     private readonly pedidoRepo: IPedidoRepository;
 
@@ -28,10 +35,24 @@ export class PedidoService {
     async armarPedido(dto: CrearPedidoDTO): Promise<Pedido> {
         const items: IItemPedido[] = [];
         for (const { productoId, cantidad } of dto.items) {
-            const producto = await this.productos.findById(productoId);
-            if (!producto) throw new ProductoNoEncontradoError(productoId);
-            items.push({ productoId, cantidad, precioUnitario: producto.calcularPrecio() });
+        if (!Number.isInteger(cantidad) || cantidad <= 0) {
+            throw new DatosPedidoInvalidosError(
+                'La cantidad debe ser un número entero mayor a cero'
+            );
         }
+
+        const producto = await this.productos.findById(productoId);
+
+        if (!producto) {
+            throw new ProductoNoEncontradoError(productoId);
+        }
+
+        items.push({
+            productoId,
+            cantidad,
+            precioUnitario: producto.calcularPrecio()
+        });
+    }
         return new Pedido(items, 'PENDIENTE', undefined, dto.mesaId);
     }
 
