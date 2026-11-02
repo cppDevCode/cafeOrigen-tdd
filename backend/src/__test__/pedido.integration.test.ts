@@ -167,6 +167,19 @@ describe('Pedidos (integración con mocks)', () => {
       expect(res.body).toHaveProperty('error');
       expect(PedidoModel.create).not.toHaveBeenCalled();
     });
+
+  it('responde 400 si mesaId es negativo', async () => {
+    const res = await request(app)
+        .post('/pedidos')
+        .send({
+            mesaId: -1,
+            items: [{ productoId: 1, cantidad: 1 }]
+        });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+    expect(PedidoModel.create).not.toHaveBeenCalled();
+  });
   });
 
   // GET /pedidos/:id
