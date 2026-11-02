@@ -201,4 +201,52 @@ it('elimina completamente un producto del carrito', () => {
 });
 
 
+it('muestra el subtotal de un producto según su cantidad', () => {
+    function AgregarProducto() {
+        const { dispatch } = useCarrito();
+
+        const muffin = {
+        id: 19,
+        nombre: 'Muffin de chocolate',
+        tipo: 'PASTELERIA' as const,
+        precioBase: 2500,
+        precio: 2500
+        };
+
+        return (
+        <button
+            onClick={() => {
+            dispatch({
+                type: 'AGREGAR_PRODUCTO',
+                producto: muffin
+            });
+
+            dispatch({
+                type: 'AGREGAR_PRODUCTO',
+                producto: muffin
+            });
+            }}
+        >
+            Agregar dos productos
+        </button>
+        );
+    }
+
+    render(
+        <CarritoProvider>
+        <AgregarProducto />
+        <Carrito />
+        </CarritoProvider>
+    );
+
+    fireEvent.click(
+        screen.getByRole('button', { name: 'Agregar dos productos' })
+    );
+
+    expect(screen.getByText('Cantidad: 2')).toBeInTheDocument();
+    expect(screen.getByText('Subtotal: $5000')).toBeInTheDocument();
+});
+
+
+
 });
