@@ -8,5 +8,14 @@ export function Carrito() {
         return <p>Tu carrito está vacío</p>;
     }
 
-    return null;
+    return (
+        <section>
+        {estado.items.map(item => (
+            <div key={item.producto.id}>
+            <p>{item.producto.nombre}</p>
+            <p>Cantidad: {item.cantidad}</p>
+            </div>
+        ))}
+        </section>
+    );
 }
