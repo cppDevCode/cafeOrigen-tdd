@@ -6,9 +6,15 @@ export function Carrito() {
     const { estado, dispatch } = useCarrito();
 
     if (estado.items.length === 0) {
-        return <p>Tu carrito está vacío</p>;
+        return (
+            <section>
+            <p>Tu carrito está vacío</p>
+            <button type="button" disabled>
+                Confirmar pedido
+            </button>
+            </section>
+        );
     }
-
     return (
         <section>
         {estado.items.map(item => (
