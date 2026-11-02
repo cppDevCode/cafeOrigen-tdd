@@ -110,34 +110,45 @@ describe('Pedidos (integración con mocks)', () => {
         { transaction: transaccionFalsa },
       );
     });
- 
+
     it('responde 404 si un producto no existe y no guarda nada', async () => {
       const res = await request(app)
         .post('/pedidos')
         .send({ items: [{ productoId: 99, cantidad: 1 }] });
- 
+
       expect(res.status).toBe(404);
       expect(PedidoModel.create).not.toHaveBeenCalled();
       expect(PedidoItemModel.bulkCreate).not.toHaveBeenCalled();
     });
+
+    it('responde 400 si el pedido no contiene productos', async () => {
+    const res = await request(app)
+        .post('/pedidos')
+        .send({ items: [] });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+    expect(PedidoModel.create).not.toHaveBeenCalled();
+
+  });
   });
  //GET /pedidos
   describe('GET /pedidos', () => {
     it('devuelve una lista vacía si no hay pedidos', async () => {
       const res = await request(app).get('/pedidos');
- 
+
       expect(res.status).toBe(200);
       expect(res.body).toEqual([]);
     });
- 
+
     it('lista los pedidos con sus items y totales numéricos', async () => {
       vi.mocked(PedidoModel.findAll).mockResolvedValueOnce([
         { id: 1, estado: 'PENDIENTE', total: '5020.00', items: [filaItem(1, 1, 1, 1, '5020.00')] },
         { id: 2, estado: 'PENDIENTE', total: '7500.00', items: [filaItem(2, 2, 2, 3, '2500.00')] },
       ] as unknown as Awaited<ReturnType<typeof PedidoModel.findAll>>);
- 
+
       const res = await request(app).get('/pedidos');
- 
+
       expect(res.status).toBe(200);
       expect(res.body).toHaveLength(2);
       expect(res.body[0].total).toBe(5020);
