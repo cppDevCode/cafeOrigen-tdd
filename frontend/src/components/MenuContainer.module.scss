@@ -1,0 +1,167 @@
+$cafe-oscuro: #3e2723;
+$cafe-crema: #faf3e8;
+$cafe-acento: #c68b59;
+$cafe-texto: #1b1210;
+$cafe-secundario: #5d4a42;
+$cafe-deshabilitado-texto: #5a4a42;
+$cafe-borde: #d9cfc3;
+$cafe-borde-card: #e8ddcf;
+$cafe-alerta-bg: #fbe9e7;
+$cafe-alerta-texto: #8c1d18;
+$cafe-alerta-borde: #b3261e;
+$radio-bloque: 12px;
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+.contenedorMenu {
+  background-color: $cafe-crema;
+  color: $cafe-texto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tituloSeccion {
+  margin: 0;
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+}
+
+.tituloPasteleria {
+  margin: 12px 0 0;
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+}
+
+.etiquetaPaso {
+  font-size: 14px;
+  font-weight: $font-weight-bold;
+  color: $cafe-secundario;
+  margin: 0;
+}
+
+.filaOpciones {
+  display: flex;
+  gap: 8px;
+}
+
+.botonOpcion {
+  flex: 1;
+  min-height: 44px;
+  border: 2px solid $cafe-borde;
+  background-color: $white;
+  color: $cafe-texto;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  @include border-radius($radio-bloque);
+  @include transition($btn-transition);
+}
+
+.botonOpcionActivo {
+  border-color: $cafe-oscuro;
+  background-color: $cafe-oscuro;
+  color: $cafe-crema;
+}
+
+.tarjeta {
+  width: 100%;
+  background-color: $white;
+  border: 2px solid $cafe-borde-card;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  @include border-radius($radio-bloque);
+  @include transition($btn-transition);
+}
+
+.tarjetaInteractiva {
+  cursor: pointer;
+}
+
+.tarjetaActiva {
+  border-color: $cafe-oscuro;
+}
+
+.descripcionVariedad {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: $cafe-secundario;
+}
+
+.precio {
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+}
+
+.precioPasteleria {
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+  margin: 4px 0 0;
+}
+
+.botonAccion {
+  min-height: 48px;
+  border: 0;
+  background-color: $cafe-acento;
+  color: $cafe-texto;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  padding: 0 18px;
+  @include border-radius($radio-bloque);
+  @include transition($btn-transition);
+
+  &:disabled {
+    background-color: $cafe-borde;
+    color: $cafe-deshabilitado-texto;
+    cursor: not-allowed;
+  }
+}
+
+.encabezadoCarga {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@keyframes giroCarga {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.iconoCarga {
+  animation: giroCarga 1s linear infinite;
+  flex-shrink: 0;
+}
+
+.bloqueSkeleton {
+  height: 72px;
+  background-color: $cafe-borde-card;
+  @include border-radius($radio-bloque);
+}
+
+.alertaError {
+  background-color: $cafe-alerta-bg;
+  color: $cafe-alerta-texto;
+  border: 1px solid $cafe-alerta-borde;
+  padding: 14px;
+  @include border-radius($radio-bloque);
+}
+
+.detalleError {
+  margin: 6px 0 0;
+  font-size: 14px;
+}

@@ -34,6 +34,15 @@ test.describe('Integrante 1: Acceso QR y Menú (POM + Viewport 375px)', () => {
     await expect(menuPage.productoPorNombre(/Muffin de chocolate/i)).toBeVisible();
   });
 
+  test('muestra "Retiro en barra" y el menú al ingresar desde "/" sin QR', async ({ page }) => {
+    const menuPage = new MenuPage(page);
+    await menuPage.navegarSinQr();
+
+    await expect(menuPage.badgeModalidad).toHaveText('Retiro en barra');
+    await expect(menuPage.seccionMenu).toBeVisible();
+    await expect(menuPage.productoPorNombre(/Muffin de chocolate/i)).toBeVisible();
+  });
+
   test('hace fallback a "Retiro en barra" cuando el QR es inválido', async ({ page }) => {
     const menuPage = new MenuPage(page);
     await menuPage.navegarConQr('invalida');

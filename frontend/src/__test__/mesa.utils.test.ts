@@ -7,6 +7,7 @@ describe('Dominio POO: ModalidadAtencion y ParserMesaUrl', () => {
 
     expect(modalidad).toBeInstanceOf(AtencionEnMesa);
     expect(modalidad.esMesa()).toBe(true);
+    expect(modalidad.obtenerMesaId()).toBe(4);
     expect(modalidad.toDTO()).toEqual({
       tipo: 'mesa',
       numero: 4,
@@ -14,13 +15,23 @@ describe('Dominio POO: ModalidadAtencion y ParserMesaUrl', () => {
     });
   });
 
-  it.each(['', '?ejemplo=ejemplo', '?mesa=', '?mesa=0', '?mesa=-5', '?mesa=abc', '?mesa=2.5'])(
+  it.each([
+    '',
+    '?ejemplo=ejemplo',
+    '?mesa=',
+    '?mesa=0',
+    '?mesa=-5',
+    '?mesa=abc',
+    '?mesa=2.5',
+    '?mesa=999999999999999999999',
+  ])(
     'instancia RetiroEnBarra (Null Object) cuando searchParam es "%s"',
     (search) => {
       const modalidad = ParserMesaUrl.desdeSearchParams(search);
 
       expect(modalidad).toBeInstanceOf(RetiroEnBarra);
       expect(modalidad.esMesa()).toBe(false);
+      expect(modalidad.obtenerMesaId()).toBeUndefined();
       expect(obtenerMesaDeUrl(search)).toEqual({
         tipo: 'barra',
         numero: null,
