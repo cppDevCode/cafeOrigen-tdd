@@ -4,7 +4,7 @@ import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 import { SelectorCafe } from './SelectorCafe';
 import '@testing-library/jest-dom/vitest';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const mockProductos = [
   {
@@ -29,11 +29,11 @@ function CatalogoWrapper() {
   const [carrito, setCarrito] = useState<any[]>([]);
 
   
-  useState(() => { // <-- ERROR INTENCIONAL
+    useEffect(() => {
     fetch('http://localhost:3000/productos')
       .then((res) => res.json())
       .then((data) => setProductos(data));
-  });
+  }, []);
 
 
   return (
@@ -50,7 +50,7 @@ describe('Integración: Catálogo y Carrito', () => {
 
     // 1. Esperamos a que MSW responda y se renderice el componente
     await waitFor(() => {
-      expect(screen.getByText(/Expreso Mediano Colombia/i)).toBeInTheDocument();
+      expect(screen.getByText(/Armá tu Café/i)).toBeInTheDocument();
     });
 
     // 2. Simulamos la selección del usuario (3 pasos)
