@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { Pasteleria } from './Pasteleria';
 import '@testing-library/jest-dom/vitest';
-import type { Producto } from '../types/producto'; 
+import type { Producto } from '../schemas/producto.schema'; 
 
 const pasteleriaFalsa = [
   { id: 10, nombre: 'Muffin de chocolate', tipo: 'PASTELERIA', precioBase: 3500, precio: 3500 },
@@ -17,12 +17,12 @@ describe('Componente Pasteleria', () => {
     
     expect(screen.getByText('Muffin de chocolate')).toBeInTheDocument();
     
-    
-    expect(screen.getByText('$ 3.500')).toBeInTheDocument(); 
+      
+    expect(screen.getByText('$ 3.500,00')).toBeInTheDocument();
 
     
-    const botonesAgregar = screen.getAllByRole('button', { name: /agregar/i });
-    fireEvent.click(botonesAgregar[0]);
+    const botonMuffin = screen.getByRole('button', { name: /agregar muffin de chocolate/i });
+    fireEvent.click(botonMuffin);
 
     
     expect(handleAgregar).toHaveBeenCalledWith(pasteleriaFalsa[0]);
