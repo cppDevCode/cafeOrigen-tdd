@@ -1,5 +1,6 @@
 import { ProductosSchema, type Producto } from '../schemas/producto.schema';
 import { ErrorApiSchema } from '../schemas/error.schema';
+import { PedidoSchema, type Pedido, type CrearPedido } from '../schemas/pedido.schema';
 
 export interface ICatalogoCliente {
   obtenerProductos(): Promise<Producto[]>;
@@ -54,6 +55,30 @@ export class ClienteApi implements ICatalogoCliente {
       throw new ErrorContratoZod();
     }
     return validacion.data;
+  }
+
+  public async crearPedido(datos: CrearPedido): Promise<Pedido> {
+  const response = await fetch(`${this.baseUrl}/pedidos`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos)
+  });
+
+  if (!response.ok) {
+    throw await this.construirErrorHttp(response);
+  }
+
+  return PedidoSchema.parse(await response.json());
+  }
+
+  public async obtenerPedido(id: number): Promise<Pedido> {
+    const response = await fetch(`${this.baseUrl}/pedidos/${id}`);
+
+    if (!response.ok) {
+      throw await this.construirErrorHttp(response);
+    }
+
+    return PedidoSchema.parse(await response.json());
   }
 }
 
