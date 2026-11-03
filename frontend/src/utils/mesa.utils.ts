@@ -8,6 +8,7 @@ export abstract class ModalidadAtencion {
   abstract readonly etiqueta: string;
 
   abstract esMesa(): boolean;
+  abstract obtenerMesaId(): number | undefined;
   abstract toDTO(): MesaInfo;
 }
 
@@ -18,7 +19,7 @@ export class AtencionEnMesa extends ModalidadAtencion {
 
   constructor(numero: number) {
     super();
-    if (!Number.isInteger(numero) || numero <= 0) {
+    if (!Number.isSafeInteger(numero) || numero <= 0) {
       throw new Error('El número de mesa debe ser un entero positivo');
     }
     this.numero = numero;
@@ -27,6 +28,10 @@ export class AtencionEnMesa extends ModalidadAtencion {
 
   esMesa(): boolean {
     return true;
+  }
+
+  obtenerMesaId(): number | undefined {
+    return this.numero;
   }
 
   toDTO(): MesaInfo {
@@ -41,6 +46,10 @@ export class RetiroEnBarra extends ModalidadAtencion {
 
   esMesa(): boolean {
     return false;
+  }
+
+  obtenerMesaId(): number | undefined {
+    return undefined;
   }
 
   toDTO(): MesaInfo {
@@ -59,7 +68,12 @@ export class ParserMesaUrl {
       return new RetiroEnBarra();
     }
 
-    return new AtencionEnMesa(Number(rawMesa));
+    const numero = Number(rawMesa);
+    if (!Number.isSafeInteger(numero)) {
+      return new RetiroEnBarra();
+    }
+
+    return new AtencionEnMesa(numero);
   }
 }
 
