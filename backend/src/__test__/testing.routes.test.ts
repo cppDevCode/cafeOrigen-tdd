@@ -3,7 +3,7 @@ import request from 'supertest';
 import express from 'express';
 import { sequelize } from '../config/BaseDeDatos.js';
 import { createTestingRouter } from '../routes/testing.route.js';
-import { PedidoModel } from '../model/pedido.model.js';
+import { PedidoModel, initPedidoModels } from '../model/pedido.model.js';
 
 const app = express();
 app.use(express.json());
@@ -11,6 +11,7 @@ app.use('/__test__', createTestingRouter());
 
 describe('Endpoints de Testing (Integración real con DB)', () => {
   beforeAll(async () => {
+    initPedidoModels(sequelize);
     await sequelize.sync({ force: true });
   });
 
@@ -20,11 +21,9 @@ describe('Endpoints de Testing (Integración real con DB)', () => {
 
   describe('POST /__test__/reset', () => {
     it('debe vaciar la tabla de pedidos', async () => {
-      // Insertamos un pedido falso
       await PedidoModel.create({ estado: 'PENDIENTE', total: 5000 });
       expect(await PedidoModel.count()).toBe(1);
 
-      // Llamamos al reset
       const res = await request(app).post('/__test__/reset');
 
       expect(res.status).toBe(200);
