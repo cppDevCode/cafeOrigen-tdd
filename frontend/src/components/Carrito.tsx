@@ -68,98 +68,138 @@ export function Carrito({ mesaId }: CarritoProps) {
         }
     }
 
-    return (
-        <section aria-label="Carrito">
-        {pedido && (
-            <section aria-label="Seguimiento del pedido">
-            <h2>Pedido #{pedido.id}</h2>
-            <p>Estado: {pedido.estado}</p>
-            <p>Total del pedido: ${pedido.total}</p>
+    
+return (
+    <section className="carrito" aria-label="Carrito">
+        <h2 className="carrito__titulo">Tu pedido</h2>
 
-            <button
-                type="button"
-                onClick={actualizarEstado}
-                disabled={cargando}
+        {pedido && (
+            <section
+                className="carrito__seguimiento"
+                aria-label="Seguimiento del pedido"
             >
-                Actualizar estado
-            </button>
+                <h3>Pedido #{pedido.id}</h3>
+                <p>Estado: {pedido.estado}</p>
+                <p>Total del pedido: ${pedido.total}</p>
+
+                <button
+                    type="button"
+                    className="carrito__actualizar"
+                    onClick={actualizarEstado}
+                    disabled={cargando}
+                >
+                    Actualizar estado
+                </button>
             </section>
         )}
 
-        {error && <p role="alert">{error}</p>}
+        {error && (
+            <p className="carrito__error" role="alert">
+                {error}
+            </p>
+        )}
 
         {estado.items.length === 0 ? (
             <>
-            <p>Tu carrito está vacío</p>
-            <button type="button" disabled>
-                Confirmar pedido
-            </button>
-            </>
-        ) : (
-            <>
-            {estado.items.map((item) => (
-                <div key={item.producto.id}>
-                <p>{item.producto.nombre}</p>
-                <p>Cantidad: {item.cantidad}</p>
-                <p>
-                    Subtotal: ${calcularSubtotalItem(item)}
+                <p className="carrito__vacio">
+                    Tu carrito está vacío
                 </p>
 
                 <button
                     type="button"
-                    aria-label="Incrementar cantidad"
-                    disabled={cargando}
-                    onClick={() =>
-                    dispatch({
-                        type: 'AGREGAR_PRODUCTO',
-                        producto: item.producto
-                    })
-                    }
+                    className="carrito__confirmar"
+                    disabled
                 >
-                    +
+                    Confirmar pedido
                 </button>
+            </>
+        ) : (
+            <>
+                {estado.items.map((item) => (
+                    <div
+                        key={item.producto.id}
+                        className="carrito__item"
+                    >
+                        <p className="carrito__nombre">
+                            {item.producto.nombre}
+                        </p>
 
-                <button
-                    type="button"
-                    aria-label="Disminuir cantidad"
-                    disabled={cargando}
-                    onClick={() =>
-                    dispatch({
-                        type: 'DISMINUIR_CANTIDAD',
-                        productoId: item.producto.id
-                    })
-                    }
-                >
-                    −
-                </button>
+                        <p className="carrito__subtotal">
+                            Subtotal: ${calcularSubtotalItem(item)}
+                        </p>
 
-                <button
-                    type="button"
-                    aria-label="Eliminar producto"
-                    disabled={cargando}
-                    onClick={() =>
-                    dispatch({
-                        type: 'ELIMINAR_PRODUCTO',
-                        productoId: item.producto.id
-                    })
-                    }
-                >
-                    Eliminar
-                </button>
+                        <div className="carrito__controles">
+                            <button
+                                type="button"
+                                className="carrito__boton-cantidad"
+                                aria-label="Disminuir cantidad"
+                                disabled={cargando}
+                                onClick={() =>
+                                    dispatch({
+                                        type: 'DISMINUIR_CANTIDAD',
+                                        productoId: item.producto.id
+                                    })
+                                }
+                            >
+                                −
+                            </button>
+
+                            <span className="carrito__cantidad">
+                                Cantidad: {item.cantidad}
+                            </span>
+
+                            <button
+                                type="button"
+                                className="carrito__boton-cantidad"
+                                aria-label="Incrementar cantidad"
+                                disabled={cargando}
+                                onClick={() =>
+                                    dispatch({
+                                        type: 'AGREGAR_PRODUCTO',
+                                        producto: item.producto
+                                    })
+                                }
+                            >
+                                +
+                            </button>
+
+                            <button
+                                type="button"
+                                className="carrito__eliminar"
+                                aria-label="Eliminar producto"
+                                disabled={cargando}
+                                onClick={() =>
+                                    dispatch({
+                                        type: 'ELIMINAR_PRODUCTO',
+                                        productoId: item.producto.id
+                                    })
+                                }
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                ))}
+
+                <div className="carrito__resumen">
+                    <span className="carrito__total">
+                        Total: ${calcularTotalCarrito(estado.items)}
+                    </span>
                 </div>
-            ))}
 
-            <p>Total: ${calcularTotalCarrito(estado.items)}</p>
-
-            <button
-                type="button"
-                onClick={confirmarPedido}
-                disabled={cargando}
-            >
-                {cargando ? 'Procesando...' : 'Confirmar pedido'}
-            </button>
+                <button
+                    type="button"
+                    className="carrito__confirmar"
+                    onClick={confirmarPedido}
+                    disabled={cargando}
+                >
+                    {cargando
+                        ? 'Procesando...'
+                        : 'Confirmar pedido'}
+                </button>
             </>
         )}
-        </section>
-    );
+    </section>
+);
+
 }
