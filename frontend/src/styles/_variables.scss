@@ -1,0 +1,44 @@
+// Paleta 
+$espresso:           #3e2723; // header, selección, barra del carrito
+$caramelo:           #c68b59; // botón principal, badge de mesa
+$crema:              #faf3e8; // fondo de la app
+$tinta:              #1b1210; // texto principal
+$cafe-suave:         #5d4a42; // texto secundario
+$arena:              #d9cfc3; // bordes de controles, botón deshabilitado
+$arena-clara:        #e8ddcf; // bordes de tarjetas, skeleton
+$gris-deshabilitado: #5a4a42; // texto de botón deshabilitado
+
+$rojo:               #b3261e; // error
+$rojo-fondo:         #fbe9e7;
+$rojo-texto:         #8c1d18;
+$verde:              #2f5e33; // pedido confirmado
+
+// Tokens compartidos
+$radio:      0.75rem;
+$radio-pill: 99px;
+$shell-max:  480px;
+
+// Overrides de Bootstrap 
+$primary:   $caramelo;
+$secondary: $espresso;
+$success:   $verde;
+$danger:    $rojo;
+
+$body-bg:              $crema;
+$body-color:           $tinta;
+$body-secondary-color: $cafe-suave;
+
+$color-contrast-dark:  $tinta;
+$color-contrast-light: $crema;
+
+$font-family-sans-serif: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$headings-font-weight:   700;
+
+$border-radius:      $radio;
+$border-radius-sm:   0.5rem;
+$border-radius-lg:   $radio;
+$border-radius-pill: $radio-pill;
+
+$btn-font-weight:      700;
+$btn-border-radius:    $radio;
+$btn-disabled-opacity: 1;
