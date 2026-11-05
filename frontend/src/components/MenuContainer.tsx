@@ -73,7 +73,7 @@ export function MenuContainer({
     return <>{renderCatalogo(estado.productos)}</>;
   }
 
-  // ACÁ ESTÁ TU CÓDIGO LIMPIO
+  
   return (
     <section aria-label="Menú de productos" className="container my-4">
       <div className="mb-5">
