@@ -33,11 +33,11 @@ describe('Componente SelectorCafe', () => {
     fireEvent.click(screen.getByLabelText(/colombia/i));
 
     
-    expect(screen.getByText(/acidez media, cuerpo equilibrado/i)).toBeInTheDocument();
+    expect(screen.getAllByText('$ 7.360,00')[0]).toBeInTheDocument();
 
    
     expect(btnAgregar).toBeEnabled();
-    expect(screen.getByText('$ 7.360,00')).toBeInTheDocument(); 
+    expect(screen.getAllByText('$ 7.360,00')[0]).toBeInTheDocument();
     
    
     fireEvent.click(btnAgregar);

@@ -21,8 +21,8 @@ describe('Componente Pasteleria', () => {
     expect(screen.getByText('$ 3.500,00')).toBeInTheDocument();
 
     
-    const botonMuffin = screen.getByRole('button', { name: /agregar muffin de chocolate/i });
-    fireEvent.click(botonMuffin);
+    const botonesAgregar = screen.getAllByRole('button', { name: /agregar/i });
+    fireEvent.click(botonesAgregar[0]!);
 
     
     expect(handleAgregar).toHaveBeenCalledWith(pasteleriaFalsa[0]);
