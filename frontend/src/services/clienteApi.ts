@@ -1,24 +1,37 @@
-import { ProductosSchema, type Producto } from '../schemas/producto.schema';
+import { ProductoSchema, ProductosSchema, type Producto } from '../schemas/producto.schema';
 import { ErrorApiSchema } from '../schemas/error.schema';
+import { PedidoSchema, type Pedido, type CrearPedido } from '../schemas/pedido.schema';
 
 export interface ICatalogoCliente {
   obtenerProductos(): Promise<Producto[]>;
+  obtenerProductoPorId?(id: number): Promise<Producto>;
 }
 
-export class ErrorApiHttp extends Error {
+export abstract class ErrorClienteApi extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = new.target.name;
+  }
+}
+
+export class ErrorRedApi extends ErrorClienteApi {
+  constructor(message = 'No se pudo conectar con el servidor') {
+    super(message);
+  }
+}
+
+export class ErrorApiHttp extends ErrorClienteApi {
   constructor(
     public readonly statusCode: number,
     message: string
   ) {
     super(message);
-    this.name = 'ErrorApiHttp';
   }
 }
 
-export class ErrorContratoZod extends Error {
+export class ErrorContratoZod extends ErrorClienteApi {
   constructor(message = 'Contrato de datos inválido al recibir productos') {
     super(message);
-    this.name = 'ErrorContratoZod';
   }
 }
 
@@ -28,7 +41,7 @@ export class ClienteApi implements ICatalogoCliente {
   ) {}
 
   public async obtenerProductos(): Promise<Producto[]> {
-    const response = await fetch(`${this.baseUrl}/productos`);
+    const response = await this.realizarPeticion('/productos');
 
     if (!response.ok) {
       throw await this.construirErrorHttp(response);
@@ -36,6 +49,53 @@ export class ClienteApi implements ICatalogoCliente {
 
     const data: unknown = await response.json();
     return this.validarContratoProductos(data);
+  }
+
+  public async obtenerProductoPorId(id: number): Promise<Producto> {
+    const response = await this.realizarPeticion(`/productos/${id}`);
+
+    if (!response.ok) {
+      throw await this.construirErrorHttp(response);
+    }
+
+    const data: unknown = await response.json();
+    const validacion = ProductoSchema.safeParse(data);
+    if (!validacion.success) {
+      throw new ErrorContratoZod('Contrato de datos inválido al recibir el producto');
+    }
+    return validacion.data;
+  }
+
+  public async crearPedido(datos: CrearPedido): Promise<Pedido> {
+    const response = await this.realizarPeticion('/pedidos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+
+    if (!response.ok) {
+      throw await this.construirErrorHttp(response);
+    }
+
+    return PedidoSchema.parse(await response.json());
+  }
+
+  public async obtenerPedido(id: number): Promise<Pedido> {
+    const response = await this.realizarPeticion(`/pedidos/${id}`);
+
+    if (!response.ok) {
+      throw await this.construirErrorHttp(response);
+    }
+
+    return PedidoSchema.parse(await response.json());
+  }
+
+  private async realizarPeticion(endpoint: string, init?: RequestInit): Promise<Response> {
+    try {
+      return await fetch(`${this.baseUrl}${endpoint}`, init);
+    } catch {
+      throw new ErrorRedApi();
+    }
   }
 
   private async construirErrorHttp(response: Response): Promise<ErrorApiHttp> {

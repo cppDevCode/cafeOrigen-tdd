@@ -12,6 +12,7 @@ export const handlersPorDefecto = [
         tamano: 'POCILLO',
         gramos: 18,
         variedad: 'BRASIL',
+        descripcionVariedad: 'Café de origen brasileño',
         precio: 5020,
       },
       {

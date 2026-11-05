@@ -1,0 +1,153 @@
+.carrito {
+    width: 100%;
+    max-width: $shell-max;
+    margin: 1.5rem auto;
+    padding: 1rem;
+
+    background-color: #fff;
+    border: 1px solid $arena-clara;
+    border-radius: $radio;
+
+    &__titulo {
+        margin-bottom: 1.25rem;
+        color: $espresso;
+        font-size: 1.375rem;
+        font-weight: 700;
+    }
+
+    &__vacio {
+        padding: 1.5rem 0;
+        color: $cafe-suave;
+        text-align: center;
+    }
+
+    &__item {
+        padding: 1rem 0;
+        border-bottom: 1px solid $arena-clara;
+    }
+
+    &__nombre {
+        margin-bottom: 0.5rem;
+        color: $tinta;
+        font-weight: 600;
+    }
+
+    &__subtotal {
+        color: $cafe-suave;
+        font-size: 0.875rem;
+    }
+
+    &__controles {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+    }
+
+    &__cantidad {
+        min-width: 1.5rem;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    &__boton-cantidad {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 44px;
+        height: 44px;
+
+        background-color: $crema;
+        border: 1px solid $arena;
+        border-radius: $radio;
+        color: $espresso;
+
+        font-size: 1.25rem;
+        font-weight: 700;
+
+        &:hover:not(:disabled) {
+        background-color: $arena-clara;
+        }
+
+        &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        }
+    }
+
+    &__eliminar {
+        min-height: 44px;
+        margin-left: auto;
+        padding: 0.5rem;
+
+        background: transparent;
+        border: none;
+        color: $rojo;
+        font-weight: 600;
+    }
+
+    &__resumen {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem 0;
+        color: $espresso;
+        font-weight: 700;
+    }
+
+    &__total {
+        font-size: 1.25rem;
+    }
+
+    &__confirmar {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+
+    background-color: $caramelo;
+    border: none;
+    border-radius: $radio;
+    color: $tinta;
+    font-weight: 700;
+
+    &:hover:not(:disabled) {
+        background-color: $arena;
+        }
+
+        &:disabled {
+        background-color: $arena;
+        color: $gris-deshabilitado;
+        cursor: not-allowed;
+        }
+    }
+
+    &__seguimiento {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: $crema;
+        border: 1px solid $arena-clara;
+        border-radius: $radio;
+    }
+
+    &__actualizar {
+        min-height: 44px;
+        padding: 0.5rem 1rem;
+
+        background-color: transparent;
+        border: 1px solid $espresso;
+        border-radius: $radio;
+        color: $espresso;
+        font-weight: 600;
+    }
+
+    &__error {
+        margin: 1rem 0;
+        padding: 0.75rem;
+        background-color: $rojo-fondo;
+        border-radius: $radio;
+        color: $rojo-texto;
+    }
+}

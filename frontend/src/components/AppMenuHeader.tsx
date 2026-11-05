@@ -1,4 +1,5 @@
 import { ParserMesaUrl } from '../utils/mesa.utils';
+import styles from './AppMenuHeader.module.scss';
 
 interface Props {
   searchParams?: string;
@@ -8,11 +9,11 @@ export function AppMenuHeader({ searchParams = window.location.search }: Props) 
   const modalidad = ParserMesaUrl.desdeSearchParams(searchParams);
 
   return (
-    <header className="navbar navbar-dark bg-dark px-3 py-2 mb-4">
-      <span className="navbar-brand mb-0 h1">Café de Origen</span>
+    <header className={styles.header}>
+      <b className={styles.brand}>Café Origen</b>
       <span
         data-testid="modalidad-atencion"
-        className={`badge ${modalidad.esMesa() ? 'bg-success' : 'bg-secondary'} fs-6`}
+        className={styles.badgeModalidad}
       >
         {modalidad.etiqueta}
       </span>

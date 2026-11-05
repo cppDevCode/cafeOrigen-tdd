@@ -25,11 +25,13 @@ export class FabricaEstadoMenu {
 interface Props {
   servicioCatalogo?: ICatalogoCliente;
   renderCatalogo?: (productos: Producto[]) => ReactNode;
+  onAgregarProducto?: (producto: Producto) => void;
 }
 
 export function MenuContainer({
   servicioCatalogo = clienteApiPorDefecto,
   renderCatalogo,
+  onAgregarProducto,
 }: Props) {
   const [estado, setEstado] = useState<EstadoMenu>(() => FabricaEstadoMenu.cargando());
 
@@ -71,30 +73,20 @@ export function MenuContainer({
     return <>{renderCatalogo(estado.productos)}</>;
   }
 
+  // ACÁ ESTÁ TU CÓDIGO LIMPIO
   return (
-    <section aria-label="Menú de productos" className="container">
+    <section aria-label="Menú de productos" className="container my-4">
       <div className="mb-5">
         <SelectorCafe 
           productos={estado.productos} 
-          onAgregar={(prod) => console.log('Falta conectar el carrito (Integrante 3):', prod)} 
+          onAgregar={onAgregarProducto || ((prod) => console.log('Agregar café:', prod))} 
         />
         
         <Pasteleria 
           productos={estado.productos} 
-          onAgregar={(prod) => console.log('Falta conectar el carrito (Integrante 3):', prod)} 
+          onAgregar={onAgregarProducto || ((prod) => console.log('Agregar pastelería:', prod))} 
         />
       </div>
-      <ul className="list-group">
-        {estado.productos.map((prod) => (
-          <li
-            key={prod.id}
-            className="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <span>{prod.nombre}</span>
-            <span className="badge bg-primary rounded-pill">${prod.precio}</span>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

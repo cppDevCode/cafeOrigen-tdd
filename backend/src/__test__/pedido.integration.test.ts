@@ -110,40 +110,104 @@ describe('Pedidos (integración con mocks)', () => {
         { transaction: transaccionFalsa },
       );
     });
- 
+
     it('responde 404 si un producto no existe y no guarda nada', async () => {
       const res = await request(app)
         .post('/pedidos')
         .send({ items: [{ productoId: 99, cantidad: 1 }] });
- 
+
       expect(res.status).toBe(404);
       expect(PedidoModel.create).not.toHaveBeenCalled();
       expect(PedidoItemModel.bulkCreate).not.toHaveBeenCalled();
     });
+
+    it('responde 400 si el pedido no contiene productos', async () => {
+    const res = await request(app)
+        .post('/pedidos')
+        .send({ items: [] });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+    expect(PedidoModel.create).not.toHaveBeenCalled();
+
+  });
+  it('crea un pedido sin mesaId y devuelve null', async () => {
+    vi.mocked(PedidoModel.findByPk).mockResolvedValueOnce({
+        id: 1,
+        mesaId: null,
+        estado: 'PENDIENTE',
+        total: '5020.00',
+        items: [filaItem(1, 1, 1, 1, '5020.00')]
+    } as unknown as Fila);
+
+    const res = await request(app)
+        .post('/pedidos')
+        .send({
+            items: [{ productoId: 1, cantidad: 1 }]
+        });
+
+    expect(res.status).toBe(201);
+    expect(res.body.mesaId).toBeNull();
+
+    expect(PedidoModel.create).toHaveBeenCalledWith(
+        {
+            mesaId: null,
+            estado: 'PENDIENTE',
+            total: 5020
+        },
+        { transaction: transaccionFalsa }
+    );
+});
+
   });
  //GET /pedidos
   describe('GET /pedidos', () => {
     it('devuelve una lista vacía si no hay pedidos', async () => {
       const res = await request(app).get('/pedidos');
- 
+
       expect(res.status).toBe(200);
       expect(res.body).toEqual([]);
     });
- 
+
     it('lista los pedidos con sus items y totales numéricos', async () => {
       vi.mocked(PedidoModel.findAll).mockResolvedValueOnce([
         { id: 1, estado: 'PENDIENTE', total: '5020.00', items: [filaItem(1, 1, 1, 1, '5020.00')] },
         { id: 2, estado: 'PENDIENTE', total: '7500.00', items: [filaItem(2, 2, 2, 3, '2500.00')] },
       ] as unknown as Awaited<ReturnType<typeof PedidoModel.findAll>>);
- 
+
       const res = await request(app).get('/pedidos');
- 
+
       expect(res.status).toBe(200);
       expect(res.body).toHaveLength(2);
       expect(res.body[0].total).toBe(5020);
       expect(res.body[1].total).toBe(7500);
       expect(res.body[1].items[0]).toMatchObject({ productoId: 2, cantidad: 3, precioUnitario: 2500 });
     });
+
+    it('responde 400 si la cantidad de un producto es negativa', async () => {
+      const res = await request(app)
+        .post('/pedidos')
+        .send({
+          items: [{ productoId: 1, cantidad: -2 }]
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty('error');
+      expect(PedidoModel.create).not.toHaveBeenCalled();
+    });
+
+  it('responde 400 si mesaId es negativo', async () => {
+    const res = await request(app)
+        .post('/pedidos')
+        .send({
+            mesaId: -1,
+            items: [{ productoId: 1, cantidad: 1 }]
+        });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+    expect(PedidoModel.create).not.toHaveBeenCalled();
+  });
   });
 
   // GET /pedidos/:id
@@ -171,5 +235,34 @@ describe('Pedidos (integración con mocks)', () => {
       expect(res.status).toBe(404);
       expect(res.body).toEqual({ error: 'Pedido no encontrado' });
     });
+
+    it('devuelve estado, mesaId, items y total del pedido', async () => {
+    vi.mocked(PedidoModel.findByPk).mockResolvedValueOnce({
+        id: 1,
+        mesaId: 4,
+        estado: 'EN_PREPARACION',
+        total: '10040.00',
+        items: [filaItem(1, 1, 1, 2, '5020.00')]
+    } as unknown as Fila);
+
+    const res = await request(app).get('/pedidos/1');
+
+    expect(res.status).toBe(200);
+
+    expect(res.body).toEqual({
+        id: 1,
+        mesaId: 4,
+        estado: 'EN_PREPARACION',
+        total: 10040,
+        items: [
+            {
+                id: 1,
+                productoId: 1,
+                cantidad: 2,
+                precioUnitario: 5020
+            }
+        ]
+    });
+});
   });
 });
