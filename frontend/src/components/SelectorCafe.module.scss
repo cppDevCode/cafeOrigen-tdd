@@ -1,0 +1,58 @@
+@import './MenuContainer.module.scss'; 
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.grupoRadios {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.radioOculto {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  
+  &:checked + .labelRadio {
+    border-color: $cafe-oscuro;
+    background-color: $cafe-oscuro;
+    color: $cafe-crema;
+  }
+}
+
+.labelRadio {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $cafe-borde;
+  background-color: $white;
+  color: $cafe-texto;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  @include border-radius($radio-bloque);
+  @include transition($btn-transition);
+  text-align: center;
+}
+
+.precioContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid $cafe-borde-card;
+}
+
+.precioTexto {
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+}

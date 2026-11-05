@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import type { Producto } from '../schemas/producto.schema'; 
-import { formatearMoneda } from '../utils/moneda.utils'; 
-import { buscarProductoCafe } from '../utils/buscarProductoCafe'; 
+import type { Producto } from '../schemas/producto.schema';
+import { formatearMoneda } from '../utils/moneda.utils';
+import { buscarProductoCafe } from '../utils/buscarProductoCafe';
+import styles from './SelectorCafe.module.scss';
 
 type Props = {
   productos: Producto[];
@@ -9,99 +10,90 @@ type Props = {
 };
 
 export function SelectorCafe({ productos, onAgregar }: Props) {
-  const [bebida, setBebida] = useState<'CAFE_EXPRESO' | 'CAFE_FILTRADO' | ''>('');
-  const [tamano, setTamano] = useState<'POCILLO' | 'MEDIANO' | 'TAZA_GRANDE' | ''>('');
-  const [variedad, setVariedad] = useState<'BRASIL' | 'COLOMBIA' | 'ETIOPIA' | ''>('');
+  const [bebida, setBebida] = useState<string>('');
+  const [tamano, setTamano] = useState<string>('');
+  const [variedad, setVariedad] = useState<string>('');
 
-
-    const productoSeleccionado = (bebida && tamano && variedad) 
-    ? buscarProductoCafe(productos, bebida, tamano, variedad) 
+  const productoSeleccionado = (bebida && tamano && variedad) 
+    ? buscarProductoCafe(productos, bebida as any, tamano as any, variedad as any)
     : undefined;
 
-  const handleAgregar = () => {
-    if (productoSeleccionado) {
-      onAgregar(productoSeleccionado);
-    }
-  };
-
   return (
-    <div className="mb-4">
-      <h3>Armá tu Café</h3>
+    <section className={styles.contenedor}>
+      <h2 className="fs-5 fw-bold m-0">Armá tu café</h2>
       
       {/* PASO 1: BEBIDA */}
-      <fieldset className="mb-3">
-        <legend className="fs-6">1. Elegí tu bebida</legend>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="bebida-expreso" name="bebida" 
-            value="CAFE_EXPRESO" onChange={(e) => setBebida(e.target.value as 'CAFE_EXPRESO' | 'CAFE_FILTRADO')} />
-          <label className="form-check-label" htmlFor="bebida-expreso">Expreso</label>
+      <div>
+        <p className="text-secondary fw-bold mb-2" style={{ fontSize: '14px' }}>1. Bebida</p>
+        <div className={styles.grupoRadios}>
+          {['CAFE_EXPRESO', 'CAFE_FILTRADO'].map((opcion) => (
+            <div key={opcion}>
+              <input 
+                type="radio" id={`bebida-${opcion}`} name="bebida" value={opcion} 
+                className={styles.radioOculto} onChange={(e) => setBebida(e.target.value)} 
+              />
+              <label htmlFor={`bebida-${opcion}`} className={styles.labelRadio}>
+                {opcion === 'CAFE_EXPRESO' ? 'Expreso' : 'Filtrado'}
+              </label>
+            </div>
+          ))}
         </div>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="bebida-filtrado" name="bebida" 
-            value="CAFE_FILTRADO" onChange={(e) => setBebida(e.target.value as 'CAFE_EXPRESO' | 'CAFE_FILTRADO')} />
-          <label className="form-check-label" htmlFor="bebida-filtrado">Filtrado</label>
-        </div>
-      </fieldset>
+      </div>
 
       {/* PASO 2: TAMAÑO */}
-      <fieldset className="mb-3">
-        <legend className="fs-6">2. Elegí el tamaño</legend>
-        <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" id="tam-pocillo" name="tamano" 
-                value="POCILLO" onChange={(e) => setTamano(e.target.value as 'POCILLO' | 'MEDIANO' | 'TAZA_GRANDE')} />
-            <label className="form-check-label" htmlFor="tam-pocillo">Pocillo</label>
+      <div>
+        <p className="text-secondary fw-bold mb-2" style={{ fontSize: '14px' }}>2. Tamaño</p>
+        <div className={styles.grupoRadios}>
+          {['POCILLO', 'MEDIANO', 'TAZA_GRANDE'].map((opcion) => (
+            <div key={opcion}>
+              <input 
+                type="radio" id={`tam-${opcion}`} name="tamano" value={opcion} 
+                className={styles.radioOculto} onChange={(e) => setTamano(e.target.value)} 
+              />
+              <label htmlFor={`tam-${opcion}`} className={styles.labelRadio}>
+                {opcion === 'POCILLO' ? 'Pocillo' : opcion === 'MEDIANO' ? 'Mediano' : 'Taza Grande'}
+              </label>
+            </div>
+          ))}
         </div>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="tam-mediano" name="tamano" 
-            value="MEDIANO" onChange={(e) => setTamano(e.target.value as 'POCILLO' | 'MEDIANO' | 'TAZA_GRANDE')} />
-          <label className="form-check-label" htmlFor="tam-mediano">Mediano</label> 
-        </div>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="tam-grande" name="tamano" 
-            value="TAZA_GRANDE" onChange={(e) => setTamano(e.target.value as 'POCILLO' | 'MEDIANO' | 'TAZA_GRANDE')} />
-          <label className="form-check-label" htmlFor="tam-grande">Taza Grande</label>
-        </div>
-      </fieldset>
+      </div>
 
       {/* PASO 3: VARIEDAD */}
-      <fieldset className="mb-3">
-        <legend className="fs-6">3. Elegí el origen</legend>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="var-colombia" name="variedad" 
-            value="COLOMBIA" onChange={(e) => setVariedad(e.target.value as 'BRASIL' | 'COLOMBIA' | 'ETIOPIA')} />
-          <label className="form-check-label" htmlFor="var-colombia">Colombia</label>
+      <div>
+        <p className="text-secondary fw-bold mb-2" style={{ fontSize: '14px' }}>3. Origen</p>
+        <div className="d-flex flex-column gap-2">
+          {['COLOMBIA', 'ETIOPIA', 'BRASIL'].map((opcion) => {
+            const cafeVar = buscarProductoCafe(productos, bebida as any, tamano as any, opcion as any);
+            return (
+              <div key={opcion}>
+                <input 
+                  type="radio" id={`var-${opcion}`} name="variedad" value={opcion} 
+                  className={styles.radioOculto} onChange={(e) => setVariedad(e.target.value)} 
+                />
+                <label htmlFor={`var-${opcion}`} className={`${styles.labelRadio} justify-content-between px-3`}>
+                  <span>{opcion}</span>
+                  <span>{cafeVar ? formatearMoneda(cafeVar.precio) : '—'}</span>
+                </label>
+              </div>
+            );
+          })}
         </div>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="var-etiopia" name="variedad" 
-            value="ETIOPIA" onChange={(e) => setVariedad(e.target.value as 'BRASIL' | 'COLOMBIA' | 'ETIOPIA')} />
-          <label className="form-check-label" htmlFor="var-etiopia">Etiopía</label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input className="form-check-input" type="radio" id="var-brasil" name="variedad" 
-            value="BRASIL" onChange={(e) => setVariedad(e.target.value as 'BRASIL' | 'COLOMBIA' | 'ETIOPIA')} />
-          <label className="form-check-label" htmlFor="var-brasil">Brasil</label>
-        </div>
-      </fieldset>
+      </div>
 
-      {/* DESCRIPCIÓN Y PRECIO */}
-      {productoSeleccionado && 'descripcionVariedad' in productoSeleccionado && (
-        <div className="alert alert-info py-2">
-          <small><strong>Notas:</strong> {productoSeleccionado.descripcionVariedad}</small>
-        </div>
-      )}
-
-      <div className="d-flex align-items-center gap-3 mt-3">
-        <span className="fs-4 fw-bold">
+      {/* PRECIO Y BOTÓN */}
+      <div className={styles.precioContainer}>
+        <span className={styles.precioTexto}>
           {productoSeleccionado ? formatearMoneda(productoSeleccionado.precio) : '$ -'}
         </span>
         <button 
-          className="btn btn-dark" 
+          className="btn btn-dark px-4 py-2" 
+          style={{ backgroundColor: '#c68b59', border: 'none', color: '#1b1210', fontWeight: 'bold' }}
           disabled={!productoSeleccionado} 
-          onClick={handleAgregar}
+          onClick={() => productoSeleccionado && onAgregar(productoSeleccionado)}
         >
           Agregar al carrito
         </button>
       </div>
-    </div>
+    </section>
   );
 }
