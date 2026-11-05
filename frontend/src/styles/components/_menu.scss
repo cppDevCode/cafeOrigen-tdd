@@ -1,0 +1,59 @@
+@keyframes menu-giro-carga {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.menu-container {
+    background-color: $crema;
+    color: $tinta;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+
+    &__carga-encabezado {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    &__titulo {
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+    }
+
+    &__icono-carga {
+        animation: menu-giro-carga 1s linear infinite;
+        flex-shrink: 0;
+    }
+
+    &__skeleton {
+        height: 72px;
+        background-color: $arena-clara;
+        border-radius: $radio;
+    }
+
+    &__alerta-error {
+        background-color: $rojo-fondo;
+        color: $rojo-texto;
+        border: 1px solid $rojo;
+        border-radius: $radio;
+        padding: 0.875rem;
+    }
+
+    &__detalle-error {
+        margin: 0.375rem 0 0;
+        font-size: 0.875rem;
+    }
+
+    &__reintentar {
+        background-color: $caramelo;
+        color: $tinta;
+        border: none;
+        border-radius: $radio;
+        font-weight: 700;
+        padding: 0 1.125rem;
+    }
+}
