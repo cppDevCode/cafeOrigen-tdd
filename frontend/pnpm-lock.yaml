@@ -14,14 +14,11 @@ importers:
       react:
         specifier: ^19.3.1
         version: 19.3.1
-      react-bootstrap:
-        specifier: ^2.10.10
-        version: 2.10.10(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-dom:
         specifier: ^19.3.1
         version: 19.3.1(react@19.3.1)
       zod:
-        specifier: 4.6.7
+        specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
       '@playwright/test':
@@ -36,6 +33,9 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.6.8
         version: 14.6.8(@testing-library/dom@10.4.2)
+      '@types/node':
+        specifier: ^26.6.6
+        version: 26.6.6
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0

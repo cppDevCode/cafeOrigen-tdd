@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, type ReactNode } from 'react';
 import { clienteApiPorDefecto, type ICatalogoCliente } from '../services/clienteApi';
 import type { Producto } from '../schemas/producto.schema';
+import { SelectorCafe } from './SelectorCafe'; 
+import { Pasteleria } from './Pasteleria';  
 
 export type EstadoMenu =
   | { status: 'cargando' }
@@ -71,6 +73,17 @@ export function MenuContainer({
 
   return (
     <section aria-label="Menú de productos" className="container">
+      <div className="mb-5">
+        <SelectorCafe 
+          productos={estado.productos} 
+          onAgregar={(prod) => console.log('Falta conectar el carrito (Integrante 3):', prod)} 
+        />
+        
+        <Pasteleria 
+          productos={estado.productos} 
+          onAgregar={(prod) => console.log('Falta conectar el carrito (Integrante 3):', prod)} 
+        />
+      </div>
       <ul className="list-group">
         {estado.productos.map((prod) => (
           <li

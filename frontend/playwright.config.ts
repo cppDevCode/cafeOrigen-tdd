@@ -18,7 +18,7 @@ export default defineConfig({
     timeout: 5000,
   },
   fullyParallel: false,
-  workers: 1,
+  workers: 1, 
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: [
@@ -28,7 +28,7 @@ export default defineConfig({
   use: {
     baseURL: FRONTEND_URL,
     trace: 'on-first-retry',
-    viewport: { width: 375, height: 667 },
+    viewport: { width: 375, height: 667 }, 
   },
   projects: [
     {
@@ -41,6 +41,7 @@ export default defineConfig({
   ],
   webServer: [
     {
+      
       command: 'pnpm --dir ../backend dev',
       url: `${BACKEND_URL}/health`,
       reuseExistingServer: !process.env.CI,
