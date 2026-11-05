@@ -51,18 +51,47 @@ export function MenuContainer({
 
   if (estado.status === 'cargando') {
     return (
-      <div role="status" className="text-center my-5">
-        <div className="spinner-border text-primary me-2" aria-hidden="true" />
-        <span>Cargando menú...</span>
+      <div role="status" aria-live="polite" className="menu-container">
+        <div className="menu-container__carga-encabezado">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            aria-hidden="true"
+            className="menu-container__icono-carga"
+          >
+            <circle cx="14" cy="14" r="11" fill="none" stroke="#E8DDCF" strokeWidth="4" />
+            <path
+              d="M14 3a11 11 0 0 1 11 11"
+              fill="none"
+              stroke="#3E2723"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+          </svg>
+          <h2 className="menu-container__titulo">Cargando menú...</h2>
+        </div>
+        <div className="menu-container__skeleton" aria-hidden="true" />
+        <div className="menu-container__skeleton" aria-hidden="true" />
+        <div className="menu-container__skeleton" aria-hidden="true" />
       </div>
     );
   }
 
   if (estado.status === 'error') {
     return (
-      <div role="alert" className="alert alert-danger d-flex flex-column align-items-center my-4">
-        <p className="mb-2">{estado.error}</p>
-        <button type="button" className="btn btn-outline-danger" onClick={() => void cargarMenu()}>
+      <div className="menu-container">
+        <div role="alert" className="menu-container__alerta-error">
+          <b>No pudimos cargar el menú</b>
+          <p className="menu-container__detalle-error">
+            {estado.error}. Revisá tu conexión e intentá de nuevo.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary menu-container__reintentar"
+          onClick={() => void cargarMenu()}
+        >
           Reintentar
         </button>
       </div>
@@ -73,20 +102,16 @@ export function MenuContainer({
     return <>{renderCatalogo(estado.productos)}</>;
   }
 
-  
   return (
-    <section aria-label="Menú de productos" className="container my-4">
-      <div className="mb-5">
-        <SelectorCafe 
-          productos={estado.productos} 
-          onAgregar={onAgregarProducto || ((prod) => console.log('Agregar café:', prod))} 
-        />
-        
-        <Pasteleria 
-          productos={estado.productos} 
-          onAgregar={onAgregarProducto || ((prod) => console.log('Agregar pastelería:', prod))} 
-        />
-      </div>
+    <section aria-label="Menú de productos" className="menu-container">
+      <SelectorCafe
+        productos={estado.productos}
+        onAgregar={onAgregarProducto || ((prod) => console.log('Agregar café:', prod))}
+      />
+      <Pasteleria
+        productos={estado.productos}
+        onAgregar={onAgregarProducto || ((prod) => console.log('Agregar pastelería:', prod))}
+      />
     </section>
   );
 }
