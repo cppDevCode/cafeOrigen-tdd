@@ -62,12 +62,12 @@ describe('Integracion: AppMenuHeader y MenuContainer con ClienteApi inyectado', 
 
     await screen.findByRole('heading', { name: /armá tu café/i });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Filtrado' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Mediano' }));
-    await userEvent.click(screen.getByRole('button', { name: /Colombia/i }));
+    await userEvent.click(screen.getByLabelText(/Filtrado/i));
+    await userEvent.click(screen.getByLabelText(/Mediano/i));
+    await userEvent.click(screen.getByLabelText(/Colombia/i));
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Agregar Filtrado Mediano Colombia al carrito' })
+      screen.getByRole('button', { name: /agregar al carrito/i })
     );
 
     expect(onAgregar).toHaveBeenCalledWith(
