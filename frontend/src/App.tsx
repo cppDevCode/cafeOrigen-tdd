@@ -25,11 +25,13 @@ export function App() {
 
   return (
     <CarritoProvider>
-      <AppMenuHeader />
-      <main>
-        <MenuConCarrito />
-        <Carrito mesaId={modalidad.obtenerMesaId()} />
-      </main>
+      <div className="app-shell">
+        <AppMenuHeader />
+        <main>
+          <MenuConCarrito />
+          <Carrito mesaId={modalidad.obtenerMesaId()} />
+        </main>
+      </div>
     </CarritoProvider>
   );
 }
