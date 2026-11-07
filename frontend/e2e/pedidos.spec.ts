@@ -80,8 +80,12 @@ test.describe('Carrito y pedidos', () => {
         page.getByTestId('modalidad-atencion')
         ).toHaveText('Mesa 4');
 
+        await page.getByLabel(/Expreso/i).check();
+        await page.getByLabel(/Pocillo/i).check();
+        await page.getByLabel(/Brasil/i).check();
+
         await page.getByRole('button', {
-        name: 'Agregar Expreso Pocillo Brasil al carrito'
+        name: /Agregar al carrito/i
         }).click();
 
         const carrito = page.getByRole('region', { name: 'Carrito' });
