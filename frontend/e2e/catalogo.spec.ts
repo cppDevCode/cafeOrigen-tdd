@@ -46,7 +46,7 @@ test.describe('Flujo E2E: Catálogo de Café', () => {
     await page.getByLabel(/Colombia/i).check();
 
     
-    await expect(page.getByText('$ 7.360,00')).toBeVisible();
+    await expect(page.getByText('$ 7.360,00').first()).toBeVisible();
     
     
     const btnAgregar = page.getByRole('button', { name: /Agregar al carrito/i });
