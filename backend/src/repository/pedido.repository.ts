@@ -8,6 +8,7 @@ const incluirItems = [{ model: PedidoItemModel, as: 'items' }];
 
 const aDominio = (p: PedidoModel): IPedido => ({
     id: p.id,
+    mesaId: p.mesaId,
     estado: p.estado,
     total: Number(p.total),
     items: (p.items ?? []).map((i) => ({
@@ -24,9 +25,13 @@ export class PedidoRepository implements IPedidoRepository {
     async guardar(pedido: IPedido): Promise<IPedido> {
         const id = await this.sequelize.transaction(async (t) => {
             const creado = await PedidoModel.create(
-                { estado: pedido.estado, total: pedido.total },
-                { transaction: t },
-            );
+        {
+            mesaId: pedido.mesaId ?? null,
+            estado: pedido.estado,
+            total: pedido.total,
+        },
+        { transaction: t },
+        );
             await PedidoItemModel.bulkCreate(
                 pedido.items.map((i) => ({
                     pedidoId: creado.id,

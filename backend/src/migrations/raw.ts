@@ -29,15 +29,21 @@ export async function migrar(cerrarConexion = false): Promise<void> {
     `);
     console.log('Tabla "productos" creada (o ya existía)');
 
-    await sequelize.query(`
-      CREATE TABLE IF NOT EXISTS pedidos (
-        id SERIAL PRIMARY KEY,
-        estado VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE',
-        total DECIMAL(10,2) NOT NULL
-      );
-    `);
+      await sequelize.query(`
+        CREATE TABLE IF NOT EXISTS pedidos (
+          id SERIAL PRIMARY KEY,
+          "mesaId" INTEGER NULL,
+          estado VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE',
+          total DECIMAL(10,2) NOT NULL
+        );
+  `);
     console.log('Tabla "pedidos" creada (o ya existía)');
 
+    await sequelize.query(`
+      ALTER TABLE pedidos
+      ADD COLUMN IF NOT EXISTS "mesaId" INTEGER NULL;
+    `);
+    
     await sequelize.query(`
       CREATE TABLE IF NOT EXISTS pedido_items (
         id SERIAL PRIMARY KEY,

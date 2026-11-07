@@ -12,12 +12,14 @@ export interface IPedido {
     items: IItemPedido[];
     estado: EstadoPedido;  // se crea siempre como 'PENDIENTE'
     total: number;
+    mesaId?: number | null;
 }
 
 // DTOs HTTP
 
 /**POST /pedidos */
 export interface CrearPedidoDTO {
+    mesaId?: number;
     items: { productoId: number; cantidad: number}[];
 }
 
@@ -26,6 +28,7 @@ export interface PedidoResponseDTO {
     id: number;
     estado: EstadoPedido;
     total: number;
+    mesaId?: number | null;
     items:{id: number; productoId:number; cantidad: number; precioUnitario: number}[];
 }
 

@@ -1,0 +1,36 @@
+@import './MenuContainer.module.scss';
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tarjetaPasteleria {
+  width: 100%;
+  background-color: $white;
+  border: 2px solid $cafe-borde-card;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include border-radius($radio-bloque);
+}
+
+.infoPasteleria {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nombre {
+  font-weight: $font-weight-bold;
+  margin: 0;
+}
+
+.precio {
+  font-weight: $font-weight-bold;
+  margin: 0;
+  color: $cafe-secundario;
+}

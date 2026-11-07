@@ -1,0 +1,17 @@
+@import '../styles/variables';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+$cafe-oscuro: $espresso;
+$cafe-crema: $crema;
+$cafe-acento: $caramelo;
+$cafe-texto: $tinta;
+$cafe-secundario: $cafe-suave;
+$cafe-deshabilitado-texto: $gris-deshabilitado;
+$cafe-borde: $arena;
+$cafe-borde-card: $arena-clara;
+$cafe-alerta-bg: $rojo-fondo;
+$cafe-alerta-texto: $rojo-texto;
+$cafe-alerta-borde: $rojo;
+$radio-bloque: $radio;
