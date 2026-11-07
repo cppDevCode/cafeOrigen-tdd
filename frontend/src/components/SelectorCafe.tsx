@@ -27,7 +27,7 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
         <p className="text-secondary fw-bold mb-2" style={{ fontSize: '14px' }}>1. Bebida</p>
         <div className={styles.grupoRadios}>
           {['CAFE_EXPRESO', 'CAFE_FILTRADO'].map((opcion) => (
-            <div key={opcion}>
+            <div key={opcion} className={styles.opcionRadio}>
               <input 
                 type="radio" id={`bebida-${opcion}`} name="bebida" value={opcion} 
                 className={styles.radioOculto} onChange={(e) => setBebida(e.target.value)} 
@@ -45,7 +45,7 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
         <p className="text-secondary fw-bold mb-2" style={{ fontSize: '14px' }}>2. Tamaño</p>
         <div className={styles.grupoRadios}>
           {['POCILLO', 'MEDIANO', 'TAZA_GRANDE'].map((opcion) => (
-            <div key={opcion}>
+            <div key={opcion} className={styles.opcionRadio}>
               <input 
                 type="radio" id={`tam-${opcion}`} name="tamano" value={opcion} 
                 className={styles.radioOculto} onChange={(e) => setTamano(e.target.value)} 
@@ -65,7 +65,7 @@ export function SelectorCafe({ productos, onAgregar }: Props) {
           {['COLOMBIA', 'ETIOPIA', 'BRASIL'].map((opcion) => {
             const cafeVar = buscarProductoCafe(productos, bebida as any, tamano as any, opcion as any);
             return (
-              <div key={opcion}>
+              <div key={opcion} className={styles.opcionRadio}>
                 <input 
                   type="radio" id={`var-${opcion}`} name="variedad" value={opcion} 
                   className={styles.radioOculto} onChange={(e) => setVariedad(e.target.value)} 
