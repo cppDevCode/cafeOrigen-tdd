@@ -18,13 +18,13 @@ test.describe('Pedidos - E2E real', () => {
     await expect(menu).toBeVisible();
 
     // configurar cafe
-    await menu.getByRole('button', { name: 'Expreso', exact: true }).click();
-    await menu.getByRole('button', { name: 'Pocillo', exact: true }).click();
-    await menu.getByRole('button', { name: /^Brasil\b/i }).click();
+    await menu.getByLabel(/Expreso/i).check();
+    await menu.getByLabel(/Pocillo/i).check();
+    await menu.getByLabel(/Brasil/i).check();
 
     // agregar al carrito
     await menu.getByRole('button', {
-        name: /Agregar Expreso Pocillo Brasil al carrito/i,
+        name: /Agregar al carrito/i,
     }).click();
 
     // verificar que aparece en el carrito
